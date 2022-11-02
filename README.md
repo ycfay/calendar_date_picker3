@@ -1,4 +1,4 @@
-# CalendarDatePicker2
+# CalendarDatePicker3
 
 [![Pub Package](https://img.shields.io/badge/pub-v0.2.5-blue)](https://pub.dev/packages/calendar_date_picker2)
 [![Pub Package](https://img.shields.io/badge/flutter-%3E%3D1.17.0-green)](https://flutter.dev/)
