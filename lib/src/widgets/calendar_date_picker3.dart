@@ -293,8 +293,10 @@ class _CalendarDatePicker3State extends State<CalendarDatePicker3> {
     return Stack(
       children: <Widget>[
         SizedBox(
-          height: (widget.config.controlsHeight ?? _subHeaderHeight) +
-              _maxDayPickerHeight,
+          height: !widget.config.disableHeader
+              ? _maxDayPickerHeight
+              : (widget.config.controlsHeight ?? _subHeaderHeight) +
+                  _maxDayPickerHeight,
           child: _buildPicker(),
         ),
         // Put the mode toggle button on top so that it won't be covered up by the _MonthPicker
@@ -379,8 +381,8 @@ class _DatePickerModeToggleButtonState
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color controlColor = colorScheme.onSurface.withOpacity(0.60);
 
-    return Visibility(
-        visible: widget.config.disableHeader,
+    return Offstage(
+        offstage: !widget.config.disableHeader,
         child: Container(
           padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
           height: (widget.config.controlsHeight ?? _subHeaderHeight),
@@ -758,8 +760,8 @@ class _MonthPickerState extends State<_MonthPicker> {
     return Semantics(
       child: Column(
         children: <Widget>[
-          Visibility(
-              visible: widget.config.disableHeader,
+          Offstage(
+              offstage: !widget.config.disableHeader,
               child: Container(
                 padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
                 height: (widget.config.controlsHeight ?? _subHeaderHeight),
