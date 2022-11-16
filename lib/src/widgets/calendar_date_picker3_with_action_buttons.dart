@@ -113,7 +113,7 @@ class _CalendarDatePicker3WithActionButtonsState
         _editCache = _values;
         widget.onCancelTapped?.call();
         if ((widget.config.openedFromDialog ?? false) &&
-            (widget.config.shouldCloseDialogAfterCancelTapped ?? false)) {
+            (widget.config.closeDialogOnCancelTapped ?? true)) {
           Navigator.pop(context);
         }
       }),
@@ -141,7 +141,8 @@ class _CalendarDatePicker3WithActionButtonsState
         _values = _editCache;
         widget.onValueChanged?.call(_values);
         widget.onOkTapped?.call();
-        if (widget.config.openedFromDialog ?? false) {
+        if ((widget.config.openedFromDialog ?? false) &&
+            (widget.config.closeDialogOnOkTapped ?? true)) {
           Navigator.pop(context, _values);
         }
       }),

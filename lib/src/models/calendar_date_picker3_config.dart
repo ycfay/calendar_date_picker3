@@ -12,6 +12,7 @@ class CalendarDatePicker3Config {
     bool? disableHeader,
     this.weekdayLabels,
     this.weekdayLabelTextStyle,
+    this.firstDayOfWeek,
     this.controlsHeight,
     this.lastMonthIcon,
     this.nextMonthIcon,
@@ -22,6 +23,7 @@ class CalendarDatePicker3Config {
     this.disabledDayTextStyle,
     this.todayTextStyle,
     this.yearTextStyle,
+    this.selectedYearTextStyle,
     this.dayBorderRadius,
     this.yearBorderRadius,
   })  : calendarType = calendarType ?? CalendarDatePicker3Type.single,
@@ -55,6 +57,9 @@ class CalendarDatePicker3Config {
   /// Custom text style for weekday labels
   final TextStyle? weekdayLabelTextStyle;
 
+  /// Index of the first day of week, where 0 points to Sunday, and 6 points to Saturday.
+  final int? firstDayOfWeek;
+
   /// Custom height for calendar control toggle's height
   final double? controlsHeight;
 
@@ -85,6 +90,9 @@ class CalendarDatePicker3Config {
   // Custom text style for years list
   final TextStyle? yearTextStyle;
 
+  // Custom text style for selected year
+  final TextStyle? selectedYearTextStyle;
+
   /// Custom border radius for day indicator
   final BorderRadius? dayBorderRadius;
 
@@ -100,6 +108,7 @@ class CalendarDatePicker3Config {
     bool? disableHeader,
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
+    int? firstDayOfWeek,
     double? controlsHeight,
     Widget? lastMonthIcon,
     Widget? nextMonthIcon,
@@ -110,6 +119,7 @@ class CalendarDatePicker3Config {
     TextStyle? disabledDayTextStyle,
     TextStyle? todayTextStyle,
     TextStyle? yearTextStyle,
+    TextStyle? selectedYearTextStyle,
     BorderRadius? dayBorderRadius,
     BorderRadius? yearBorderRadius,
   }) {
@@ -123,6 +133,7 @@ class CalendarDatePicker3Config {
       weekdayLabels: weekdayLabels ?? this.weekdayLabels,
       weekdayLabelTextStyle:
           weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
+      firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
@@ -134,6 +145,8 @@ class CalendarDatePicker3Config {
       disabledDayTextStyle: disabledDayTextStyle ?? this.disabledDayTextStyle,
       todayTextStyle: todayTextStyle ?? this.todayTextStyle,
       yearTextStyle: yearTextStyle ?? this.yearTextStyle,
+      selectedYearTextStyle:
+          selectedYearTextStyle ?? this.selectedYearTextStyle,
       dayBorderRadius: dayBorderRadius ?? this.dayBorderRadius,
       yearBorderRadius: yearBorderRadius ?? this.yearBorderRadius,
     );
@@ -151,6 +164,7 @@ class CalendarDatePicker3WithActionButtonsConfig
     bool? disableHeader,
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
+    int? firstDayOfWeek,
     double? controlsHeight,
     Widget? lastMonthIcon,
     Widget? nextMonthIcon,
@@ -161,6 +175,7 @@ class CalendarDatePicker3WithActionButtonsConfig
     TextStyle? disabledDayTextStyle,
     TextStyle? todayTextStyle,
     TextStyle? yearTextStyle,
+    TextStyle? selectedYearTextStyle,
     BorderRadius? dayBorderRadius,
     BorderRadius? yearBorderRadius,
     this.gapBetweenCalendarAndButtons,
@@ -169,7 +184,8 @@ class CalendarDatePicker3WithActionButtonsConfig
     this.okButtonTextStyle,
     this.okButton,
     this.openedFromDialog,
-    this.shouldCloseDialogAfterCancelTapped,
+    this.closeDialogOnCancelTapped,
+    this.closeDialogOnOkTapped,
   }) : super(
           calendarType: calendarType,
           firstDate: firstDate,
@@ -179,6 +195,7 @@ class CalendarDatePicker3WithActionButtonsConfig
           disableHeader: disableHeader,
           weekdayLabels: weekdayLabels,
           weekdayLabelTextStyle: weekdayLabelTextStyle,
+          firstDayOfWeek: firstDayOfWeek,
           controlsHeight: controlsHeight,
           lastMonthIcon: lastMonthIcon,
           nextMonthIcon: nextMonthIcon,
@@ -189,6 +206,7 @@ class CalendarDatePicker3WithActionButtonsConfig
           disabledDayTextStyle: disabledDayTextStyle,
           todayTextStyle: todayTextStyle,
           yearTextStyle: yearTextStyle,
+          selectedYearTextStyle: selectedYearTextStyle,
           dayBorderRadius: dayBorderRadius,
           yearBorderRadius: yearBorderRadius,
         );
@@ -211,8 +229,11 @@ class CalendarDatePicker3WithActionButtonsConfig
   /// Is the calendar opened from dialog
   final bool? openedFromDialog;
 
-  /// If the dialog should be closed when user taps the cancel button
-  final bool? shouldCloseDialogAfterCancelTapped;
+  /// If the dialog should be closed when user taps the CANCEL button
+  final bool? closeDialogOnCancelTapped;
+
+  /// If the dialog should be closed when user taps the OK button
+  final bool? closeDialogOnOkTapped;
 
   @override
   CalendarDatePicker3WithActionButtonsConfig copyWith({
@@ -224,6 +245,7 @@ class CalendarDatePicker3WithActionButtonsConfig
     bool? disableHeader,
     List<String>? weekdayLabels,
     TextStyle? weekdayLabelTextStyle,
+    int? firstDayOfWeek,
     double? controlsHeight,
     Widget? lastMonthIcon,
     Widget? nextMonthIcon,
@@ -234,13 +256,15 @@ class CalendarDatePicker3WithActionButtonsConfig
     TextStyle? disabledDayTextStyle,
     TextStyle? todayTextStyle,
     TextStyle? yearTextStyle,
+    TextStyle? selectedYearTextStyle,
     double? gapBetweenCalendarAndButtons,
     TextStyle? cancelButtonTextStyle,
     Widget? cancelButton,
     TextStyle? okButtonTextStyle,
     Widget? okButton,
     bool? openedFromDialog,
-    bool? shouldCloseDialogAfterCancelTapped,
+    bool? closeDialogOnCancelTapped,
+    bool? closeDialogOnOkTapped,
     BorderRadius? dayBorderRadius,
     BorderRadius? yearBorderRadius,
   }) {
@@ -254,6 +278,7 @@ class CalendarDatePicker3WithActionButtonsConfig
       weekdayLabels: weekdayLabels ?? this.weekdayLabels,
       weekdayLabelTextStyle:
           weekdayLabelTextStyle ?? this.weekdayLabelTextStyle,
+      firstDayOfWeek: firstDayOfWeek ?? this.firstDayOfWeek,
       controlsHeight: controlsHeight ?? this.controlsHeight,
       lastMonthIcon: lastMonthIcon ?? this.lastMonthIcon,
       nextMonthIcon: nextMonthIcon ?? this.nextMonthIcon,
@@ -265,6 +290,8 @@ class CalendarDatePicker3WithActionButtonsConfig
       disabledDayTextStyle: disabledDayTextStyle ?? this.disabledDayTextStyle,
       todayTextStyle: todayTextStyle ?? this.todayTextStyle,
       yearTextStyle: yearTextStyle ?? this.yearTextStyle,
+      selectedYearTextStyle:
+          selectedYearTextStyle ?? this.selectedYearTextStyle,
       gapBetweenCalendarAndButtons:
           gapBetweenCalendarAndButtons ?? this.gapBetweenCalendarAndButtons,
       cancelButtonTextStyle:
@@ -273,8 +300,10 @@ class CalendarDatePicker3WithActionButtonsConfig
       okButtonTextStyle: okButtonTextStyle ?? this.okButtonTextStyle,
       okButton: okButton ?? this.okButton,
       openedFromDialog: openedFromDialog ?? this.openedFromDialog,
-      shouldCloseDialogAfterCancelTapped: shouldCloseDialogAfterCancelTapped ??
-          this.shouldCloseDialogAfterCancelTapped,
+      closeDialogOnCancelTapped:
+          closeDialogOnCancelTapped ?? this.closeDialogOnCancelTapped,
+      closeDialogOnOkTapped:
+          closeDialogOnOkTapped ?? this.closeDialogOnOkTapped,
       dayBorderRadius: dayBorderRadius ?? this.dayBorderRadius,
       yearBorderRadius: yearBorderRadius ?? this.yearBorderRadius,
     );

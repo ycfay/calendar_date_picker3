@@ -293,10 +293,8 @@ class _CalendarDatePicker3State extends State<CalendarDatePicker3> {
     return Stack(
       children: <Widget>[
         SizedBox(
-          height: !widget.config.disableHeader
-              ? _maxDayPickerHeight
-              : (widget.config.controlsHeight ?? _subHeaderHeight) +
-                  _maxDayPickerHeight,
+          height: (widget.config.controlsHeight ?? _subHeaderHeight) +
+              _maxDayPickerHeight,
           child: _buildPicker(),
         ),
         // Put the mode toggle button on top so that it won't be covered up by the _MonthPicker
@@ -381,58 +379,55 @@ class _DatePickerModeToggleButtonState
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color controlColor = colorScheme.onSurface.withOpacity(0.60);
 
-    return Offstage(
-        offstage: !widget.config.disableHeader,
-        child: Container(
-          padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
-          height: (widget.config.controlsHeight ?? _subHeaderHeight),
-          child: Row(
-            children: <Widget>[
-              Flexible(
-                child: Semantics(
-                  label: MaterialLocalizations.of(context)
-                      .selectYearSemanticsLabel,
-                  excludeSemantics: true,
-                  button: true,
-                  child: SizedBox(
-                    height: (widget.config.controlsHeight ?? _subHeaderHeight),
-                    child: InkWell(
-                      onTap: widget.onTitlePressed,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: <Widget>[
-                            Flexible(
-                              child: Text(
-                                widget.title,
-                                overflow: TextOverflow.ellipsis,
-                                style: widget.config.controlsTextStyle ??
-                                    textTheme.titleSmall?.copyWith(
-                                      color: controlColor,
-                                    ),
-                              ),
-                            ),
-                            RotationTransition(
-                              turns: _controller,
-                              child: Icon(
-                                Icons.arrow_drop_down,
-                                color: widget.config.controlsTextStyle?.color ??
-                                    controlColor,
-                              ),
-                            ),
-                          ],
+    return Container(
+      padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
+      height: (widget.config.controlsHeight ?? _subHeaderHeight),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: Semantics(
+              label: MaterialLocalizations.of(context).selectYearSemanticsLabel,
+              excludeSemantics: true,
+              button: true,
+              child: SizedBox(
+                height: (widget.config.controlsHeight ?? _subHeaderHeight),
+                child: InkWell(
+                  onTap: widget.onTitlePressed,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            widget.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: widget.config.controlsTextStyle ??
+                                textTheme.titleSmall?.copyWith(
+                                  color: controlColor,
+                                ),
+                          ),
                         ),
-                      ),
+                        RotationTransition(
+                          turns: _controller,
+                          child: Icon(
+                            Icons.arrow_drop_down,
+                            color: widget.config.controlsTextStyle?.color ??
+                                controlColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              if (widget.mode == DatePickerMode.day)
-                // Give space for the prev/next month buttons that are underneath this row
-                const SizedBox(width: _monthNavButtonsWidth),
-            ],
+            ),
           ),
-        ));
+          if (widget.mode == DatePickerMode.day)
+            // Give space for the prev/next month buttons that are underneath this row
+            const SizedBox(width: _monthNavButtonsWidth),
+        ],
+      ),
+    );
   }
 
   @override
@@ -760,37 +755,34 @@ class _MonthPickerState extends State<_MonthPicker> {
     return Semantics(
       child: Column(
         children: <Widget>[
-          Offstage(
-              offstage: !widget.config.disableHeader,
-              child: Container(
-                padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
-                height: (widget.config.controlsHeight ?? _subHeaderHeight),
-                child: Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    IconButton(
-                      icon: widget.config.lastMonthIcon ??
-                          const Icon(Icons.chevron_left),
-                      color: controlColor,
-                      tooltip: _isDisplayingFirstMonth
-                          ? null
-                          : _localizations.previousMonthTooltip,
-                      onPressed:
-                          _isDisplayingFirstMonth ? null : _handlePreviousMonth,
-                    ),
-                    IconButton(
-                      icon: widget.config.nextMonthIcon ??
-                          const Icon(Icons.chevron_right),
-                      color: controlColor,
-                      tooltip: _isDisplayingLastMonth
-                          ? null
-                          : _localizations.nextMonthTooltip,
-                      onPressed:
-                          _isDisplayingLastMonth ? null : _handleNextMonth,
-                    ),
-                  ],
+          Container(
+            padding: const EdgeInsetsDirectional.only(start: 16, end: 4),
+            height: (widget.config.controlsHeight ?? _subHeaderHeight),
+            child: Row(
+              children: <Widget>[
+                const Spacer(),
+                IconButton(
+                  icon: widget.config.lastMonthIcon ??
+                      const Icon(Icons.chevron_left),
+                  color: controlColor,
+                  tooltip: _isDisplayingFirstMonth
+                      ? null
+                      : _localizations.previousMonthTooltip,
+                  onPressed:
+                      _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
-              )),
+                IconButton(
+                  icon: widget.config.nextMonthIcon ??
+                      const Icon(Icons.chevron_right),
+                  color: controlColor,
+                  tooltip: _isDisplayingLastMonth
+                      ? null
+                      : _localizations.nextMonthTooltip,
+                  onPressed: _isDisplayingLastMonth ? null : _handleNextMonth,
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: FocusableActionDetector(
               shortcuts: _shortcutMap,
@@ -835,7 +827,7 @@ class _FocusedDate extends InheritedWidget {
     return !DateUtils.isSameDay(date, oldWidget.date);
   }
 
-  static DateTime? of(BuildContext context) {
+  static DateTime? maybeOf(BuildContext context) {
     final _FocusedDate? focusedDate =
         context.dependOnInheritedWidgetOfExactType<_FocusedDate>();
     return focusedDate?.date;
@@ -898,7 +890,7 @@ class _DayPickerState extends State<_DayPicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Check to see if the focused date is in this month, if so focus it.
-    final DateTime? focusedDate = _FocusedDate.of(context);
+    final DateTime? focusedDate = _FocusedDate.maybeOf(context);
     if (focusedDate != null &&
         DateUtils.isSameMonth(widget.displayedMonth, focusedDate)) {
       _dayFocusNodes[focusedDate.day - 1].requestFocus();
@@ -936,7 +928,11 @@ class _DayPickerState extends State<_DayPicker> {
     final List<Widget> result = <Widget>[];
     final weekdays =
         widget.config.weekdayLabels ?? localizations.narrowWeekdays;
-    for (int i = localizations.firstDayOfWeekIndex; true; i = (i + 1) % 7) {
+    final firstDayOfWeek =
+        widget.config.firstDayOfWeek ?? localizations.firstDayOfWeekIndex;
+    assert(firstDayOfWeek >= 0 && firstDayOfWeek <= 6,
+        'firstDayOfWeek must between 0 and 6');
+    for (int i = firstDayOfWeek; true; i = (i + 1) % 7) {
       final String weekday = weekdays[i];
       result.add(ExcludeSemantics(
         child: Center(
@@ -946,7 +942,7 @@ class _DayPickerState extends State<_DayPicker> {
           ),
         ),
       ));
-      if (i == (localizations.firstDayOfWeekIndex - 1) % 7) break;
+      if (i == (firstDayOfWeek - 1) % 7) break;
     }
     return result;
   }
@@ -971,7 +967,8 @@ class _DayPickerState extends State<_DayPicker> {
     final int month = widget.displayedMonth.month;
 
     final int daysInMonth = DateUtils.getDaysInMonth(year, month);
-    final int dayOffset = DateUtils.firstDayOffset(year, month, localizations);
+    final int dayOffset = getMonthFirstDayOffset(year, month,
+        widget.config.firstDayOfWeek ?? localizations.firstDayOfWeekIndex);
 
     final List<Widget> dayItems = _dayHeaders(headerStyle, localizations);
     // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
@@ -1300,7 +1297,11 @@ class _YearPickerState extends State<YearPicker> {
     } else {
       textColor = colorScheme.onSurface.withOpacity(0.87);
     }
-    final TextStyle? itemStyle = textTheme.bodyText1?.apply(color: textColor);
+    TextStyle? itemStyle = widget.config.yearTextStyle ??
+        textTheme.bodyText1?.apply(color: textColor);
+    if (isSelected) {
+      itemStyle = widget.config.selectedYearTextStyle ?? itemStyle;
+    }
 
     BoxDecoration? decoration;
     if (isSelected) {
@@ -1330,7 +1331,7 @@ class _YearPickerState extends State<YearPicker> {
             button: true,
             child: Text(
               year.toString(),
-              style: widget.config.yearTextStyle ?? itemStyle,
+              style: itemStyle,
             ),
           ),
         ),

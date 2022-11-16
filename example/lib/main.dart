@@ -1,4 +1,4 @@
-import 'package:calendar_date_picker2/calendar_date_picker3.dart';
+import 'package:calendar_date_picker3/calendar_date_picker3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -119,10 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _buildCalendarDialogButton() {
     final config = CalendarDatePicker3WithActionButtonsConfig(
-      calendarType: CalendarDatePicker3Type.range,
-      selectedDayHighlightColor: Colors.purple[800],
-      shouldCloseDialogAfterCancelTapped: true,
-    );
+        calendarType: CalendarDatePicker3Type.range,
+        selectedDayHighlightColor: Colors.purple[800]);
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
